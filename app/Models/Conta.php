@@ -14,23 +14,36 @@ class Conta extends Model
     protected $table = 'contas';
 
     protected $fillable = [
-        'cliente_id',
+        'dono_id',
+        'nome',
+        'tipo',
+        'categoria',
         'valor',
-        'tipo_movimentacao',
-        'tipo_pagamento',
+        'saldo',
         'status',
         'data_vencimento',
         'data_pagamento',
+        'recorrente',
+        'metodo_pagamento',
         'descricao',
+        'tipo_movimentacao',
+        'tipo_pagamento',
     ];
 
     protected $casts = [
         'data_vencimento' => 'date',
         'data_pagamento' => 'date',
         'valor' => 'decimal:2',
+        'saldo' => 'decimal:2',
+        'recorrente' => 'boolean',
     ];
 
     // Relacionamentos
+    public function dono()
+    {
+        return $this->belongsTo(Dono::class);
+    }
+    
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);

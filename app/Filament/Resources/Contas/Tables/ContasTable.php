@@ -19,12 +19,13 @@ class ContasTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                
-                TextColumn::make('codigo')
-                    ->label('Código')
-                    ->sortable()
                     ->searchable(),
+                
+                TextColumn::make('dono.nome')
+                    ->label('Dono')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 
                 TextColumn::make('nome')
                     ->label('Nome')

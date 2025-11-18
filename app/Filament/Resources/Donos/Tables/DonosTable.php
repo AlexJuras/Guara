@@ -28,8 +28,7 @@ class DonosTable
                 ImageColumn::make('foto')
                     ->label('Foto')
                     ->circular()
-                    ->defaultImageUrl(url('/images/default-avatar.png'))
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->defaultImageUrl(url('https://picsum.photos/200')),
                 
                 TextColumn::make('nome')
                     ->label('Nome')
@@ -60,17 +59,6 @@ class DonosTable
                     ->label('CPF/CNPJ')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                
-                TextColumn::make('email')
-                    ->label('E-mail')
-                    ->searchable()
-                    ->copyable()
-                    ->icon('heroicon-o-envelope'),
-                
-                TextColumn::make('telefone')
-                    ->label('Telefone')
-                    ->searchable()
-                    ->icon('heroicon-o-phone'),
                 
                 TextColumn::make('whatsapp')
                     ->label('WhatsApp')

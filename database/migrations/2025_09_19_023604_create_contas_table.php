@@ -13,15 +13,24 @@ return new class extends Migration
     {
         Schema::create('contas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('dono_id')->constrained('donos')->onDelete('cascade');
+            $table->string('nome');
+            $table->enum('tipo', ['receita', 'despesa', 'transferencia'])->default('despesa');
+            $table->string('categoria')->nullable();
             $table->decimal('valor', 12, 2);
-            $table->enum('tipo_movimentacao', ['receber', 'pagar']);
-            $table->enum('tipo_pagamento', ['pix', 'transferencia', 'boleto', 'cartao', 'dinheiro'])->nullable();
-            $table->enum('status', ['pendente', 'pago', 'atrasado', 'cancelado'])->default('pendente');
-            $table->date('data_vencimento')->nullable();
+            $table->decimal('saldo', 12, 2)->default(0);
+            $table->enum('status', ['pendente', 'pago', 'parcial', 'cancelado'])->default('pendente');
+            $table->date('data_vencimento');
             $table->date('data_pagamento')->nullable();
+            $table->boolean('recorrente')->default(false);
+            $table->string('metodo_pagamento')->nullable();
             $table->text('descricao')->nullable();
             $table->timestamps();
+            
+            $table->index('dono_id');
+            $table->index('tipo');
+            $table->index('status');
+            $table->index('data_vencimento');
         });
     }
 

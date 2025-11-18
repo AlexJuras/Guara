@@ -14,7 +14,29 @@ class ContaForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->components([                
+            ->components([
+                Select::make('dono_id')
+                    ->label('Dono da Conta')
+                    ->relationship('dono', 'nome')
+                    ->required()
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        TextInput::make('nome')
+                            ->required()
+                            ->maxLength(255),
+                        Select::make('tipo')
+                            ->options([
+                                'cliente' => 'Cliente',
+                                'fornecedor' => 'Fornecedor',
+                                'prestador_servico' => 'Prestador de Serviço',
+                                'outros' => 'Outros',
+                            ])
+                            ->default('outros')
+                            ->required(),
+                    ])
+                    ->helperText('Selecione ou crie um novo dono para esta conta'),
+                
                 TextInput::make('nome')
                     ->label('Nome')
                     ->required()

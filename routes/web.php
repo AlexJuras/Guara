@@ -17,6 +17,6 @@ Route::get('/contas/{conta}/edit', [ContaController::class, 'edit'])->name('cont
 Route::put('/contas/{conta}', [ContaController::class, 'update'])->name('contas.update'); // Atualizar conta existente
 Route::delete('/contas/{conta}', [ContaController::class, 'destroy'])->name('contas.destroy'); // Excluir conta
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('Home');
+// })->name('home');

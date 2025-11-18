@@ -38,7 +38,10 @@ class AdminPanelProvider extends PanelProvider
                 'danger' => Color::hex('#ef4444'),
                 'info' => Color::hex('#3b82f6'),
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->resources([
+                \App\Filament\Resources\Contas\ContaResource::class,
+                \App\Filament\Resources\Donos\DonoResource::class,
+            ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
