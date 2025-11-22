@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Conta;
+use Carbon\Carbon;
 
 class ContaObserver
 {
@@ -27,6 +28,63 @@ class ContaObserver
                     $user->decrement('saldo', $valor);
                 }
             }
+        }
+
+        // Se for uma conta recorrente, gera as contas subsequentes
+        if ($conta->recorrente && $conta->recorrencia_tipo && $conta->recorrencia_repeticoes > 1) {
+            $this->gerarContasRecorrentes($conta);
+        }
+    }
+
+    /**
+     * Gera contas recorrentes baseado na periodicidade
+     */
+    private function gerarContasRecorrentes(Conta $contaMae): void
+    {
+        $dataBase = Carbon::parse($contaMae->data_vencimento);
+        $repeticoes = $contaMae->recorrencia_repeticoes;
+
+        // A primeira conta já foi criada, então criamos as demais (repeticoes - 1)
+        for ($i = 1; $i < $repeticoes; $i++) {
+            $novaData = $dataBase->copy();
+
+            // Calcula a nova data baseado no tipo de recorrência
+            switch ($contaMae->recorrencia_tipo) {
+                case 'diaria':
+                    $novaData->addDays($i);
+                    break;
+                case 'semanal':
+                    $novaData->addWeeks($i);
+                    break;
+                case 'mensal':
+                    $novaData->addMonths($i);
+                    break;
+                case 'anual':
+                    $novaData->addYears($i);
+                    break;
+            }
+
+            // Cria a nova conta recorrente (sem disparar o Observer novamente)
+            Conta::withoutEvents(function () use ($contaMae, $novaData) {
+                Conta::create([
+                    'user_id' => $contaMae->user_id,
+                    'dono_id' => $contaMae->dono_id,
+                    'nome' => $contaMae->nome,
+                    'tipo' => $contaMae->tipo,
+                    'categoria' => $contaMae->categoria,
+                    'valor' => $contaMae->valor,
+                    'saldo' => $contaMae->saldo,
+                    'status' => 'pendente', // Sempre cria como pendente
+                    'data_vencimento' => $novaData,
+                    'data_pagamento' => null,
+                    'recorrente' => false, // Marca como false para evitar loop
+                    'recorrencia_tipo' => $contaMae->recorrencia_tipo,
+                    'recorrencia_repeticoes' => $contaMae->recorrencia_repeticoes,
+                    'conta_recorrente_id' => $contaMae->id, // Vincula à conta mãe
+                    'metodo_pagamento' => $contaMae->metodo_pagamento,
+                    'descricao' => $contaMae->descricao,
+                ]);
+            });
         }
     }
 

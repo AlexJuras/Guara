@@ -102,6 +102,30 @@ class ContasTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 
+                TextColumn::make('contaRecorrenteMae.nome')
+                    ->label('Série Recorrente')
+                    ->badge()
+                    ->color('info')
+                    ->icon('heroicon-o-arrow-path')
+                    ->placeholder('Conta única')
+                    ->tooltip(fn ($record) => $record->conta_recorrente_id 
+                        ? 'Esta conta faz parte de uma série recorrente' 
+                        : 'Esta é uma conta única')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('recorrencia_tipo')
+                    ->label('Tipo Recorrência')
+                    ->badge()
+                    ->color('purple')
+                    ->formatStateUsing(fn ($state) => match($state) {
+                        'diaria' => 'Diária',
+                        'semanal' => 'Semanal',
+                        'mensal' => 'Mensal',
+                        'anual' => 'Anual',
+                        default => '-'
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
+                
                 IconColumn::make('recorrente')
                     ->label('Recorrente')
                     ->boolean()

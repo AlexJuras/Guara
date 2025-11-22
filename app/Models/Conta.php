@@ -25,6 +25,9 @@ class Conta extends Model
         'data_vencimento',
         'data_pagamento',
         'recorrente',
+        'recorrencia_tipo',
+        'recorrencia_repeticoes',
+        'conta_recorrente_id',
         'metodo_pagamento',
         'descricao',
         'tipo_movimentacao',
@@ -37,6 +40,7 @@ class Conta extends Model
         'valor' => 'decimal:2',
         'saldo' => 'decimal:2',
         'recorrente' => 'boolean',
+        'recorrencia_repeticoes' => 'integer',
     ];
 
     // Relacionamentos
@@ -58,6 +62,18 @@ class Conta extends Model
     public function parcelas()
     {
         return $this->hasMany(Parcela::class);
+    }
+
+    // Relacionamento com conta recorrente mãe
+    public function contaRecorrenteMae()
+    {
+        return $this->belongsTo(Conta::class, 'conta_recorrente_id');
+    }
+
+    // Relacionamento com contas recorrentes filhas
+    public function contasRecorrentes()
+    {
+        return $this->hasMany(Conta::class, 'conta_recorrente_id');
     }
 
     // Scopes

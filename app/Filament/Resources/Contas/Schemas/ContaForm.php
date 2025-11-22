@@ -99,7 +99,37 @@ class ContaForm
                 Toggle::make('recorrente')
                     ->label('Conta Recorrente')
                     ->default(false)
-                    ->helperText('Marque se esta conta se repete mensalmente'),
+                    ->helperText('Marque se esta conta se repete periodicamente')
+                    ->live()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        if (!$state) {
+                            $set('recorrencia_tipo', null);
+                            $set('recorrencia_repeticoes', null);
+                        }
+                    }),
+                
+                Select::make('recorrencia_tipo')
+                    ->label('Tipo de Recorrência')
+                    ->options([
+                        'diaria' => 'Diária',
+                        'semanal' => 'Semanal',
+                        'mensal' => 'Mensal',
+                        'anual' => 'Anual',
+                    ])
+                    ->native(false)
+                    ->required(fn ($get) => $get('recorrente'))
+                    ->visible(fn ($get) => $get('recorrente'))
+                    ->helperText('Com que frequência esta conta se repete?'),
+                
+                TextInput::make('recorrencia_repeticoes')
+                    ->label('Número de Repetições')
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(999)
+                    ->default(12)
+                    ->required(fn ($get) => $get('recorrente'))
+                    ->visible(fn ($get) => $get('recorrente'))
+                    ->helperText('Quantas vezes esta conta irá se repetir? (incluindo a primeira)'),
                 
                 Select::make('metodo_pagamento')
                     ->label('Método de Pagamento')
