@@ -51,6 +51,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\SaldoStatsWidget::class,
                 \App\Filament\Widgets\ReceitasDespesasPendentesWidget::class,
                 \App\Filament\Resources\Contas\Widgets\ContasReceitaDespesaChart::class,
+                \App\Filament\Widgets\ContasPagasChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

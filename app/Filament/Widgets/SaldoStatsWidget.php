@@ -7,6 +7,9 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class SaldoStatsWidget extends StatsOverviewWidget
 {
+    protected static ?int $sort = 1;
+    protected int | string | array $columnSpan = 'full';
+    
     protected function getStats(): array
     {
         $user = auth()->user();
@@ -15,7 +18,7 @@ class SaldoStatsWidget extends StatsOverviewWidget
         return [
             Stat::make('Saldo Atual', 'R$ ' . number_format((float) $saldo, 2, ',', '.'))
                 ->description('Seu saldo disponível')
-                ->descriptionIcon('heroicon-m-currency-dollar')
+                ->descriptionIcon('heroicon-o-banknotes')
                 ->color($saldo >= 0 ? 'success' : 'danger')
                 ->chart($saldo >= 0 ? [7, 2, 10, 3, 15, 4, 17] : [17, 16, 14, 15, 14, 13, 12]),
         ];

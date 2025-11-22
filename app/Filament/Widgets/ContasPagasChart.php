@@ -9,14 +9,14 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 
-class ReceitasDespesasPendentesWidget extends StatsOverviewWidget
+class ContasPagasChart extends StatsOverviewWidget
 {
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
     protected int | string | array $columnSpan = 'full';
     
     protected function getHeading(): string
     {
-        return 'RECEITAS';
+        return 'DESPESAS';
     }
     
     protected function getStats(): array
@@ -25,36 +25,36 @@ class ReceitasDespesasPendentesWidget extends StatsOverviewWidget
         $currentMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
 
-        // Calculate pending receitas for current month
-        $receitasPendentes = Conta::where('user_id', $userId)
-            ->where('tipo', 'receita')
+        // Busca total de despesas pendentes no mês
+        $despesasPendentes = Conta::where('user_id', $userId)
+            ->where('tipo', 'despesa')
             ->where('status', 'pendente')
             ->whereBetween('data_vencimento', [$currentMonth, $endOfMonth])
             ->sum('valor');
-
-        // Calculate receitas pagas no mês
-        $receitasPagas = Conta::where('user_id', $userId)
-            ->where('tipo', 'receita')
+        
+        // Busca total de despesas pagas no mês
+        $despesasPagas = Conta::where('user_id', $userId)
+            ->where('tipo', 'despesa')
             ->where('status', 'pago')
             ->whereBetween('data_pagamento', [$currentMonth, $endOfMonth])
             ->sum('valor');
-        
-        // Total de receitas (pagas + pendentes)
-        $totalReceitas = $receitasPendentes + $receitasPagas;
+
+        // Total de despesas (pagas + pendentes)
+        $totalDespesas = $despesasPendentes + $despesasPagas;
         
         return [
-            Stat::make('A Receber', 'R$ ' . number_format($receitasPendentes, 2, ',', '.'))
-                ->description('Receitas pendentes no mês')
+            Stat::make('A Pagar', 'R$ ' . number_format($despesasPendentes, 2, ',', '.'))
+                ->description('Despesas pendentes no mês')
                 ->descriptionIcon('heroicon-o-clock')
                 ->color('warning'),
             
-            Stat::make('Recebidas', 'R$ ' . number_format($receitasPagas, 2, ',', '.'))
-                ->description('Receitas pagas no mês')
+            Stat::make('Pagas', 'R$ ' . number_format($despesasPagas, 2, ',', '.'))
+                ->description('Despesas pagas no mês')
                 ->descriptionIcon('heroicon-o-check-badge')
-                ->color('success'),
+                ->color('danger'),
             
-            Stat::make('Total do Mês', 'R$ ' . number_format($totalReceitas, 2, ',', '.'))
-                ->description('Total de receitas (pagas + pendentes)')
+            Stat::make('Total do Mês', 'R$ ' . number_format($totalDespesas, 2, ',', '.'))
+                ->description('Total de despesas (pagas + pendentes)')
                 ->descriptionIcon('heroicon-o-chart-bar')
                 ->color('info'),
         ];

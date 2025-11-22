@@ -20,7 +20,13 @@ class ContaResource extends Resource
 {
     protected static ?string $model = Conta::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+    
+    protected static ?string $navigationLabel = 'Contas';
+    
+    protected static ?string $modelLabel = 'Conta';
+    
+    protected static ?string $pluralModelLabel = 'Contas';
 
     public static function form(Schema $schema): Schema
     {
