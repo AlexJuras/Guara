@@ -16,4 +16,9 @@ class ListContas extends ListRecords
             CreateAction::make(),
         ];
     }
+    
+    protected function getTableQuery(): ?\Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getTableQuery()->where('user_id', auth()->id());
+    }
 }

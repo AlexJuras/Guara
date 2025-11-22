@@ -21,6 +21,12 @@ class ContasTable
                     ->sortable()
                     ->searchable(),
                 
+                TextColumn::make('user.name')
+                    ->label('Criado por')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                
                 TextColumn::make('dono.nome')
                     ->label('Dono')
                     ->searchable()

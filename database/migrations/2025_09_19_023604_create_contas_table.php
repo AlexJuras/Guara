@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('contas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('dono_id')->constrained('donos')->onDelete('cascade');
             $table->string('nome');
             $table->enum('tipo', ['receita', 'despesa', 'transferencia'])->default('despesa');
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->text('descricao')->nullable();
             $table->timestamps();
             
+            $table->index('user_id');
             $table->index('dono_id');
             $table->index('tipo');
             $table->index('status');

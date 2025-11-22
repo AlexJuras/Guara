@@ -14,6 +14,7 @@ class Conta extends Model
     protected $table = 'contas';
 
     protected $fillable = [
+        'user_id',
         'dono_id',
         'nome',
         'tipo',
@@ -39,6 +40,11 @@ class Conta extends Model
     ];
 
     // Relacionamentos
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
     public function dono()
     {
         return $this->belongsTo(Dono::class);

@@ -42,14 +42,16 @@ class ContasReceitaDespesaChart extends ChartWidget
             
             $dataAtual = Carbon::create($now->year, $month, $day);
             
-            // Busca receitas pendentes do dia
-            $receitas = Conta::where('tipo', 'receita')
+            // Busca receitas pendentes do dia do usuário logado
+            $receitas = Conta::where('user_id', auth()->id())
+                ->where('tipo', 'receita')
                 ->where('status', 'pendente')
                 ->whereDate('data_vencimento', $dataAtual)
                 ->sum('valor');
             
-            // Busca despesas pendentes do dia
-            $despesas = Conta::where('tipo', 'despesa')
+            // Busca despesas pendentes do dia do usuário logado
+            $despesas = Conta::where('user_id', auth()->id())
+                ->where('tipo', 'despesa')
                 ->where('status', 'pendente')
                 ->whereDate('data_vencimento', $dataAtual)
                 ->sum('valor');
