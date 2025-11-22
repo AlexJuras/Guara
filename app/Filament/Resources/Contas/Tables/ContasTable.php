@@ -6,9 +6,12 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
+use Filament\Tables\Filters\SelectFilter;
 
 class ContasTable
 {
@@ -19,7 +22,8 @@ class ContasTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 
                 TextColumn::make('user.name')
                     ->label('Criado por')
@@ -59,7 +63,8 @@ class ContasTable
                 TextColumn::make('categoria')
                     ->label('Categoria')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 
                 TextColumn::make('valor')
                     ->label('Valor')
@@ -148,9 +153,54 @@ class ContasTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pendente' => 'Pendente',
+                        'pago' => 'Pago',
+                        'parcial' => 'Parcial',
+                        'cancelado' => 'Cancelado',
+                    ])
+                    ->placeholder('Todos os status'),
+                
+                SelectFilter::make('tipo')
+                    ->label('Tipo')
+                    ->options([
+                        'receita' => 'Receita',
+                        'despesa' => 'Despesa',
+                        'transferencia' => 'Transferência',
+                    ])
+                    ->placeholder('Todos os tipos'),
+                
+                SelectFilter::make('dono_id')
+                    ->label('Dono')
+                    ->relationship('dono', 'nome')
+                    ->searchable()
+                    ->preload()
+                    ->placeholder('Todos os donos'),
             ])
             ->recordActions([
+                Action::make('marcar_como_pago')
+                    ->label('Marcar como Pago')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(fn ($record) => $record->status !== 'pago')
+                    ->requiresConfirmation()
+                    ->modalHeading('Marcar conta como paga?')
+                    ->modalDescription('Esta ação irá atualizar o status da conta para "pago" e atualizará seu saldo.')
+                    ->modalSubmitActionLabel('Sim, marcar como pago')
+                    ->action(function ($record) {
+                        $record->update([
+                            'status' => 'pago',
+                            'data_pagamento' => now(),
+                        ]);
+                        
+                        Notification::make()
+                            ->success()
+                            ->title('Conta marcada como paga')
+                            ->body('A conta foi marcada como paga e seu saldo foi atualizado.')
+                            ->send();
+                    }),
                 ViewAction::make(),
                 EditAction::make(),
             ])
