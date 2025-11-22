@@ -23,6 +23,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'saldo',
     ];
 
     /**
@@ -45,7 +46,13 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'saldo' => 'decimal:2',
         ];
+    }
+    
+    public function contas()
+    {
+        return $this->hasMany(Conta::class);
     }
 
     public function canAccessPanel(Panel $panel): bool
