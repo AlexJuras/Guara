@@ -20,7 +20,6 @@ class Conta extends Model
         'tipo',
         'categoria',
         'valor',
-        'saldo',
         'status',
         'data_vencimento',
         'data_pagamento',
@@ -30,6 +29,7 @@ class Conta extends Model
         'conta_recorrente_id',
         'metodo_pagamento',
         'descricao',
+        'anexos',
         'tipo_movimentacao',
         'tipo_pagamento',
     ];
@@ -38,9 +38,9 @@ class Conta extends Model
         'data_vencimento' => 'date',
         'data_pagamento' => 'date',
         'valor' => 'decimal:2',
-        'saldo' => 'decimal:2',
         'recorrente' => 'boolean',
         'recorrencia_repeticoes' => 'integer',
+        'anexos' => 'array',
     ];
 
     // Relacionamentos

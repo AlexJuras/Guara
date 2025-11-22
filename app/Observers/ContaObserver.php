@@ -12,8 +12,11 @@ class ContaObserver
      */
     public function created(Conta $conta): void
     {
-        // Se a conta foi criada já como paga, atualiza o saldo
+        // Se a conta foi criada já como paga, atualiza o saldo e data de pagamento
         if ($conta->status === 'pago') {
+            // Atualiza a data de pagamento para agora sem disparar o observer novamente
+            $conta->updateQuietly(['data_pagamento' => now()]);
+            
             $user = $conta->user;
             
             if ($user) {
@@ -73,7 +76,6 @@ class ContaObserver
                     'tipo' => $contaMae->tipo,
                     'categoria' => $contaMae->categoria,
                     'valor' => $contaMae->valor,
-                    'saldo' => $contaMae->saldo,
                     'status' => 'pendente', // Sempre cria como pendente
                     'data_vencimento' => $novaData,
                     'data_pagamento' => null,
@@ -99,6 +101,9 @@ class ContaObserver
         
         // Verifica se o status mudou para 'pago'
         if ($statusOriginal !== 'pago' && $statusAtual === 'pago') {
+            // Atualiza a data de pagamento para agora sem disparar o observer novamente
+            $conta->updateQuietly(['data_pagamento' => now()]);
+            
             $user = $conta->user;
             
             if ($user) {
@@ -117,6 +122,9 @@ class ContaObserver
         
         // Se o status mudou de 'pago' para outro status, reverte a operação
         if ($statusOriginal === 'pago' && $statusAtual !== 'pago') {
+            // Limpa a data de pagamento
+            $conta->updateQuietly(['data_pagamento' => null]);
+            
             $user = $conta->user;
             
             if ($user) {

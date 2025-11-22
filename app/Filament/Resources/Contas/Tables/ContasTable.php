@@ -71,12 +71,6 @@ class ContasTable
                     ->money('BRL')
                     ->sortable(),
                 
-                TextColumn::make('saldo')
-                    ->label('Saldo')
-                    ->money('BRL')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()

@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
 
 class ContaForm
@@ -65,14 +66,6 @@ class ContaForm
                     ->step(0.01)
                     ->minValue(0),
                 
-                TextInput::make('saldo')
-                    ->label('Saldo')
-                    ->numeric()
-                    ->prefix('R$')
-                    ->step(0.01)
-                    ->default(0)
-                    ->helperText('Valor restante a pagar/receber'),
-                
                 Select::make('status')
                     ->label('Status')
                     ->required()
@@ -83,7 +76,8 @@ class ContaForm
                         'cancelado' => 'Cancelado',
                     ])
                     ->default('pendente')
-                    ->native(false),
+                    ->native(false)
+                    ->live(),
                 
                 DatePicker::make('data_vencimento')
                     ->label('Data de Vencimento')
@@ -94,7 +88,10 @@ class ContaForm
                 DatePicker::make('data_pagamento')
                     ->label('Data de Pagamento')
                     ->native(false)
-                    ->displayFormat('d/m/Y'),
+                    ->displayFormat('d/m/Y')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->helperText('Preenchido automaticamente quando a conta é marcada como paga'),
                 
                 Toggle::make('recorrente')
                     ->label('Conta Recorrente')
@@ -149,6 +146,18 @@ class ContaForm
                     ->label('Descrição / Observações')
                     ->rows(3)
                     ->maxLength(1000)
+                    ->columnSpanFull(),
+                
+                FileUpload::make('anexos')
+                    ->label('Anexos')
+                    ->multiple()
+                    ->directory('contas/anexos')
+                    ->acceptedFileTypes(['application/pdf', 'image/*'])
+                    ->maxSize(5120)
+                    ->downloadable()
+                    ->openable()
+                    ->previewable()
+                    ->helperText('Anexe comprovantes, notas fiscais ou outros documentos (PDF ou imagens, máx. 5MB cada)')
                     ->columnSpanFull(),
             ]);
     }
