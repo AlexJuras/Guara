@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Dono extends Model
+class Cadastro extends Model
 {
-    /** @use HasFactory<\Database\Factories\DonoFactory> */
+    /** @use HasFactory<\Database\Factories\CadastroFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $table = 'donos';
+    protected $table = 'cadastros';
 
     protected $fillable = [
         'foto',
@@ -41,6 +41,6 @@ class Dono extends Model
 
     public function contas(): HasMany
     {
-        return $this->hasMany(Conta::class, 'dono_id');
+        return $this->hasMany(Conta::class, 'cadastro_id');
     }
 }

@@ -31,8 +31,8 @@ class ContasTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 
-                TextColumn::make('dono.nome')
-                    ->label('Dono')
+                TextColumn::make('cadastro.nome')
+                    ->label('Cadastro')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
@@ -166,12 +166,12 @@ class ContasTable
                     ])
                     ->placeholder('Todos os tipos'),
                 
-                SelectFilter::make('dono_id')
-                    ->label('Dono')
-                    ->relationship('dono', 'nome')
+                SelectFilter::make('cadastro_id')
+                    ->label('Cadastro')
+                    ->relationship('cadastro', 'nome')
                     ->searchable()
                     ->preload()
-                    ->placeholder('Todos os donos'),
+                    ->placeholder('Todos os cadastros'),
             ])
             ->recordActions([
                 Action::make('marcar_como_pago')

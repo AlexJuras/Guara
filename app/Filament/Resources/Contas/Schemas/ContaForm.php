@@ -16,9 +16,9 @@ class ContaForm
     {
         return $schema
             ->components([
-                Select::make('dono_id')
-                    ->label('Dono da Conta')
-                    ->relationship('dono', 'nome')
+                Select::make('cadastro_id')
+                    ->label('Cadastro da Conta')
+                    ->relationship('cadastro', 'nome')
                     ->required()
                     ->searchable()
                     ->preload()
@@ -36,7 +36,7 @@ class ContaForm
                             ->default('outros')
                             ->required(),
                     ])
-                    ->helperText('Selecione ou crie um novo dono para esta conta'),
+                    ->helperText('Selecione ou crie um novo cadastro para esta conta'),
                 
                 TextInput::make('nome')
                     ->label('Nome')

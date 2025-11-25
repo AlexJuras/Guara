@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Donos\Tables;
+namespace App\Filament\Resources\Cadastros\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -14,7 +14,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class DonosTable
+class CadastrosTable
 {
     public static function configure(Table $table): Table
     {

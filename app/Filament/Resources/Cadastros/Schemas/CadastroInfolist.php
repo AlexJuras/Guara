@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Donos\Schemas;
+namespace App\Filament\Resources\Cadastros\Schemas;
 
 use Filament\Schemas\Schema;
 
-class DonoInfolist
+class CadastroInfolist
 {
     public static function configure(Schema $schema): Schema
     {

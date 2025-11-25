@@ -15,7 +15,7 @@ class Conta extends Model
 
     protected $fillable = [
         'user_id',
-        'dono_id',
+        'cadastro_id',
         'nome',
         'tipo',
         'categoria',
@@ -49,9 +49,9 @@ class Conta extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function dono()
+    public function cadastro()
     {
-        return $this->belongsTo(Dono::class);
+        return $this->belongsTo(Cadastro::class);
     }
     
     public function cliente()
