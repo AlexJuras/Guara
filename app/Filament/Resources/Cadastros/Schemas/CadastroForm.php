@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Donos\Schemas;
+namespace App\Filament\Resources\Cadastros\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -9,7 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
-class DonoForm
+class CadastroForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -20,7 +20,7 @@ class DonoForm
                     ->image()
                     ->avatar()
                     ->imageEditor()
-                    ->directory('donos')
+                    ->directory('cadastros')
                     ->maxSize(2048)
                     ->columnSpanFull(),
                 

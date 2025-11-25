@@ -71,7 +71,7 @@ class ContaObserver
             Conta::withoutEvents(function () use ($contaMae, $novaData) {
                 Conta::create([
                     'user_id' => $contaMae->user_id,
-                    'dono_id' => $contaMae->dono_id,
+                    'cadastro_id' => $contaMae->cadastro_id,
                     'nome' => $contaMae->nome,
                     'tipo' => $contaMae->tipo,
                     'categoria' => $contaMae->categoria,

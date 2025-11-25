@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Dono>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cadastro>
  */
-class DonoFactory extends Factory
+class CadastroFactory extends Factory
 {
     /**
      * Define the model's default state.

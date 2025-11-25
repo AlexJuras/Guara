@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Donos\Pages;
+namespace App\Filament\Resources\Cadastros\Pages;
 
-use App\Filament\Resources\Donos\DonoResource;
+use App\Filament\Resources\Cadastros\CadastroResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewDono extends ViewRecord
+class ViewCadastro extends ViewRecord
 {
-    protected static string $resource = DonoResource::class;
+    protected static string $resource = CadastroResource::class;
 
     protected function getHeaderActions(): array
     {

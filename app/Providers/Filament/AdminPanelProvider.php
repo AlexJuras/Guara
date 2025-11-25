@@ -40,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->resources([
                 \App\Filament\Resources\Contas\ContaResource::class,
-                \App\Filament\Resources\Donos\DonoResource::class,
+                \App\Filament\Resources\Cadastros\CadastroResource::class,
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
