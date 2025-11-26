@@ -19,8 +19,15 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        Conta::observe(ContaObserver::class);
+public function boot(): void
+{
+    // Sua observação existente
+    Conta::observe(ContaObserver::class);
+
+        if ($this->app->environment('local')) {
+        \URL::forceScheme('https');
     }
+
+
+}
 }
