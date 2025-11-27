@@ -10,6 +10,8 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -17,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Blade;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,6 +32,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('')
             ->login()
             ->registration()
+            ->brandName('Guará')
+            ->brandLogo(asset('guara-logo.jpeg'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('favicon.ico'))
             ->colors([
                 'primary' => Color::hex('#f97316'), // Laranja principal
                 'secondary' => Color::hex('#1f2937'), // Cinza escuro
@@ -69,5 +76,33 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->domain(null);
+    }
+
+    public function boot(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::HEAD_END,
+            fn (): string => Blade::render(<<<'HTML'
+                <style>
+                    /* Tornar a logo redonda com sombra sutil */
+                    .fi-logo img,
+                    .fi-sidebar-header img,
+                    [class*="logo"] img {
+                        border-radius: 50% !important;
+                        object-fit: cover !important;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+                        background: white !important;
+                        padding: 2px !important;
+                    }
+                    
+                    /* Esconder menções ao Filament e Laravel no footer */
+                    .fi-footer,
+                    [class*="footer"] a[href*="filamentphp"],
+                    [class*="footer"] a[href*="laravel"] {
+                        display: none !important;
+                    }
+                </style>
+            HTML)
+        );
     }
 }
