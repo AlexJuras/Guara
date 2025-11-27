@@ -24,7 +24,8 @@ public function boot(): void
     // Sua observação existente
     Conta::observe(ContaObserver::class);
 
-        if ($this->app->environment('local')) {
+     if ($this->app->environment('production')) {
+    //  if ($this->app->environment('local')) {
         \URL::forceScheme('https');
     }
 
